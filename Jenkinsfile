@@ -10,16 +10,17 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', credentialsId: "{github-access-token}", url: 'https://github.com/ritikkorde/devops-project.git'
+                git branch: 'main', credentialsId: 'github-access-token', url: 'https://github.com/ritikkorde/devops-project.git'
             }
         }
+
         stage('Verify Workspace') {
-    steps {
-        sh 'pwd'
-        sh 'ls -lah'
-        sh 'ls -lah src || echo "src directory not found!"'
-    }
-}
+            steps {
+                sh 'pwd'
+                sh 'ls -lah'
+                sh 'ls -lah src || echo "src directory not found!"'
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -36,15 +37,16 @@ pipeline {
                 }
             }
         }
-stage('Deploy to EKS') {
-    steps {
-        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
-            sh '''
-            aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER
-            kubectl apply -f k8s/deployment.yaml
-            '''
+
+        stage('Deploy to EKS') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
+                    sh '''
+                    aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER
+                    kubectl apply -f k8s/deployment.yaml
+                    '''
+                }
+            }
         }
-    }
-  }
-
-
+    }  // ✅ Closing "stages"
+}  // ✅ Closing "pipeline"
