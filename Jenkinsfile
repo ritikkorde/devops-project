@@ -14,6 +14,13 @@ pipeline {
             }
         }
 
+  stage('Checkout Code') {
+     steps {
+        checkout scm
+        sh 'ls -l'
+    }
+}
+
         stage('Build Docker Image') {
             steps {
                 script {
