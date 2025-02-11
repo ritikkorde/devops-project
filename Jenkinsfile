@@ -13,6 +13,14 @@ pipeline {
                 git branch: 'main', credentialsId: "{github-access-token}", url: 'https://github.com/ritikkorde/devops-project.git'
             }
         }
+        stage('Verify Workspace') {
+    steps {
+        sh 'pwd'
+        sh 'ls -lah'
+        sh 'ls -lah src || echo "src directory not found!"'
+    }
+}
+
         stage('Build Docker Image') {
             steps {
                 script {
