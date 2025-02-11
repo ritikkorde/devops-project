@@ -13,14 +13,6 @@ pipeline {
                 git branch: 'main', credentialsId: "{github-access-token}", url: 'https://github.com/ritikkorde/devops-project.git'
             }
         }
-
-  stage('Checkout Code') {
-     steps {
-        checkout scm
-        sh 'ls -l'
-    }
-}
-
         stage('Build Docker Image') {
             steps {
                 script {
